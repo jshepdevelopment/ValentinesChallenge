@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jshepdevelopment.lovechallenge.LoveChallenge;
+import com.jshepdevelopment.lovechallenge.view.GameView;
 
 public class EndScreen implements Screen {
 
@@ -38,6 +39,14 @@ public class EndScreen implements Screen {
     private Game game;
     private Stage stage;
     private Table table;
+
+    // define various screen sizes and resolutions
+    int screenWidth = Gdx.graphics.getWidth();
+
+    int baseWidth = 480;
+    float scaleModifier = 0.5f;
+    //Define the screen as MDPI as baseline
+    GameView.ScreenType screenType = GameView.ScreenType.MDPI;
 
     public static LoveChallenge loveChallengeGame;
 
@@ -71,10 +80,43 @@ public class EndScreen implements Screen {
         // Submit the score to play services
         loveChallengeGame.playServices.submitScore(score);
 
-        parameter.size = 150;
+        if ( screenWidth <  baseWidth ) screenType = GameView.ScreenType.LDPI;
+        if ( screenWidth >= baseWidth * 1 ) screenType = GameView.ScreenType.MDPI;
+        if ( screenWidth >= baseWidth * 1.5 ) screenType = GameView.ScreenType.HDPI;
+        if ( screenWidth >= baseWidth * 2 ) screenType = GameView.ScreenType.XHDPI;
+        if ( screenWidth >= baseWidth * 3 ) screenType = GameView.ScreenType.XXHDPI;
+        if ( screenWidth >= baseWidth * 4 ) screenType = GameView.ScreenType.XXXHDPI;
+
+        // Setting the base size for font MDPI screen
+        parameter.size = 38;
+
+        // Set sizes relative to screen type
+        if(screenType== GameView.ScreenType.XXXHDPI) {
+            parameter.size = 38*4;
+            scaleModifier = 20;
+        }
+        if(screenType== GameView.ScreenType.XXHDPI) {
+            parameter.size = 38*3;
+            scaleModifier = 15;
+        }
+        if(screenType== GameView.ScreenType.XHDPI) {
+            parameter.size = 38*2;
+            scaleModifier = 12;
+        }
+        if(screenType== GameView.ScreenType.HDPI) {
+            parameter.size = 38*2;
+            scaleModifier = 8;
+        }
+        if(screenType== GameView.ScreenType.MDPI) {
+            parameter.size = 32;
+            scaleModifier = 1;
+        }
+        if(screenType== GameView.ScreenType.LDPI) {
+            parameter.size = 24;
+            scaleModifier = 1;
+        }
+
         parameter.color = Color.RED;
-        parameter.borderWidth = 3;
-        parameter.borderColor = Color.PINK;
 
         BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         textButtonStyle.font = font12;
@@ -92,11 +134,11 @@ public class EndScreen implements Screen {
 
         Label.LabelStyle headingStyle = new Label.LabelStyle(font12, new Color(255, 0, 255, 255));
 
-        heading = new Label("Game over!", headingStyle);
-        scoreLabel = new Label("Your score was: "+ score, headingStyle);
+        heading = new Label("", headingStyle);
+        scoreLabel = new Label(score + " taps in ten seconds!", headingStyle);
 
         buttonBack = new TextButton("Try Again", textButtonStyle);
-        buttonBack.pad(20);
+        buttonBack.pad(scaleModifier);
         buttonBack.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -105,7 +147,7 @@ public class EndScreen implements Screen {
         });
 
         buttonScore = new TextButton("High Scores", textButtonStyle);
-        buttonScore.pad(20);
+        buttonScore.pad(scaleModifier);
         buttonScore.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -115,13 +157,14 @@ public class EndScreen implements Screen {
         });
 
         table.add(heading);
-        table.getCell(heading).spaceBottom(150);
+        table.row();
+        table.getCell(heading).spaceBottom(scaleModifier*5);
         table.row();
         table.add(scoreLabel);
-        table.getCell(scoreLabel).spaceBottom(100);
+        table.getCell(scoreLabel).spaceBottom(scaleModifier*5);
         table.row();
         table.add(buttonBack);
-        table.getCell(buttonBack).spaceBottom(100);
+        table.getCell(buttonBack).spaceBottom(scaleModifier*5);
         table.row();
         table.add(buttonScore);
         stage.addActor(table);

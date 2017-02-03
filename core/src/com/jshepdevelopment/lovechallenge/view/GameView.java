@@ -75,15 +75,16 @@ public class GameView  {
     // Loading all the necessary items
     private void loadItems() {
 
+        Gdx.app.log("JSLOG", "GameView screenWidth is " + screenWidth);
+
         if ( screenWidth <  baseWidth ) screenType = ScreenType.LDPI;
         if ( screenWidth >= baseWidth * 1 ) screenType = ScreenType.MDPI;
-        if ( screenWidth >= baseWidth * 1.5 ) screenType = ScreenType.HDPI;
+        if ( screenWidth >= baseWidth * 1.75 ) screenType = ScreenType.HDPI;
         if ( screenWidth >= baseWidth * 2 ) screenType = ScreenType.XHDPI;
         if ( screenWidth >= baseWidth * 3 ) screenType = ScreenType.XXHDPI;
         if ( screenWidth >= baseWidth * 4 ) screenType = ScreenType.XXXHDPI;
 
-        Gdx.app.log("JSLOG", "screenWidth is " + screenWidth);
-        Gdx.app.log("JSLOG", "screenType is " + screenType.toString());
+        Gdx.app.log("JSLOG", "GameView screenType is " + screenType.toString());
 
         // Setting the base size for font MDPI screen
         parameter.size = 38;
@@ -137,25 +138,25 @@ public class GameView  {
             parameter.size = 38*3;
             playerOneSprite.setScale(0.75f);
             p1Circle.set(playerOneSprite.getX() + playerOneSprite.getWidth()/2, playerOneSprite.getY() +
-                    (playerOneSprite.getHeight()*((float)0.75))/2, playerOneSprite.getRegionWidth()/2);
+                    (playerOneSprite.getHeight()*((float)0.70))/2, playerOneSprite.getRegionWidth()/2);
         }
         if(screenType==ScreenType.XHDPI) {
             parameter.size = 38*2;
             playerOneSprite.setScale(0.50f);
             p1Circle.set(playerOneSprite.getX() + playerOneSprite.getWidth()/2, playerOneSprite.getY() +
-                    (playerOneSprite.getHeight()*((float)0.50))/2, playerOneSprite.getRegionWidth()/2);
+                    (playerOneSprite.getHeight()*((float)0.45))/2, playerOneSprite.getRegionWidth()/2);
         }
         if(screenType==ScreenType.HDPI) {
             parameter.size = 38*2;
             playerOneSprite.setScale(0.35f);
             p1Circle.set(playerOneSprite.getX() + playerOneSprite.getWidth()/2, playerOneSprite.getY() +
-                    (playerOneSprite.getHeight()*((float)0.35))/2, playerOneSprite.getRegionWidth()/2);
+                    (playerOneSprite.getHeight()*((float)0.30))/2, playerOneSprite.getRegionWidth()/2);
         }
         if(screenType==ScreenType.MDPI) {
             parameter.size = 38;
             playerOneSprite.setScale(0.25f);
             p1Circle.set(playerOneSprite.getX() + playerOneSprite.getWidth()/2, playerOneSprite.getY() +
-                    (playerOneSprite.getHeight()*((float)0.25))/2, playerOneSprite.getRegionWidth()/2);
+                    (playerOneSprite.getHeight()*((float)0.10))/2, playerOneSprite.getRegionWidth()/2);
         }
         if(screenType==ScreenType.LDPI) {
             parameter.size = 30;

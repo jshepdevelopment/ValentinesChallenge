@@ -52,6 +52,7 @@ public class MenuScreen implements Screen{
     GameView.ScreenType screenType = GameView.ScreenType.MDPI;
 
 
+
     public MenuScreen (Game game, LoveChallenge loveChallengeGame) {
         this.game = game;
         this.loveChallengeGame = loveChallengeGame;
@@ -82,34 +83,44 @@ public class MenuScreen implements Screen{
     @Override
     public void show() {
 
+        Gdx.app.log("JSLOG", "screenWidth is " + screenWidth);
+
         if ( screenWidth <  baseWidth ) screenType = GameView.ScreenType.LDPI;
         if ( screenWidth >= baseWidth * 1 ) screenType = GameView.ScreenType.MDPI;
-        if ( screenWidth >= baseWidth * 1.5 ) screenType = GameView.ScreenType.HDPI;
+        if ( screenWidth >= baseWidth * 1.75 ) screenType = GameView.ScreenType.HDPI;
         if ( screenWidth >= baseWidth * 2 ) screenType = GameView.ScreenType.XHDPI;
         if ( screenWidth >= baseWidth * 3 ) screenType = GameView.ScreenType.XXHDPI;
         if ( screenWidth >= baseWidth * 4 ) screenType = GameView.ScreenType.XXXHDPI;
 
+        Gdx.app.log("JSLOG", "screenType is " + screenType.toString());
+
         // Setting the base size for font MDPI screen
-        parameter.size = 38;
+        parameter.size = 32;
 
         // Set sizes relative to screen type
         if(screenType== GameView.ScreenType.XXXHDPI) {
             parameter.size = 38*4;
+            scaleModifier = 20;
         }
         if(screenType== GameView.ScreenType.XXHDPI) {
             parameter.size = 38*3;
+            scaleModifier = 15;
         }
         if(screenType== GameView.ScreenType.XHDPI) {
             parameter.size = 38*2;
+            scaleModifier = 12;
         }
         if(screenType== GameView.ScreenType.HDPI) {
             parameter.size = 38*2;
+            scaleModifier = 8;
         }
         if(screenType== GameView.ScreenType.MDPI) {
-            parameter.size = 38;
+            parameter.size = 38*2;
+            scaleModifier = 8;
         }
         if(screenType== GameView.ScreenType.LDPI) {
-            parameter.size = 30;
+            parameter.size = 38;
+            scaleModifier = 2;
         }
 
         parameter.color = Color.RED;
@@ -131,7 +142,7 @@ public class MenuScreen implements Screen{
 
         //Button PLAY
         buttonPlay = new TextButton("Play", textButtonStyle);
-        buttonPlay.pad(20);
+        buttonPlay.pad(scaleModifier);
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -141,7 +152,7 @@ public class MenuScreen implements Screen{
 
         //Button EXIT
         buttonExit = new TextButton("Exit", textButtonStyle);
-        buttonExit.pad(20);
+        buttonExit.pad(scaleModifier);
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -151,7 +162,7 @@ public class MenuScreen implements Screen{
 
         //Button TEST for testing Google Play Services
         buttonTest = new TextButton("Test Achievements", textButtonStyle);
-        buttonTest.pad(20);
+        buttonTest.pad(scaleModifier);
         buttonTest.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -165,16 +176,17 @@ public class MenuScreen implements Screen{
 
         //putting all that into a table
         table.add(heading);
-        table.getCell(heading).spaceBottom(100);
+        table.row();
+        table.getCell(heading).spaceBottom(scaleModifier*5);
         table.row();
         table.add(buttonPlay);
-        table.getCell(buttonPlay).spaceBottom(20);
+        table.getCell(buttonPlay).spaceBottom(scaleModifier);
         table.row();
         table.add(buttonExit);
-        table.getCell(buttonExit).spaceBottom(20);
+        table.getCell(buttonExit).spaceBottom(scaleModifier);
         table.row();
         table.add(buttonTest);
-        table.getCell(buttonTest).spaceBottom(20);
+        table.getCell(buttonTest).spaceBottom(scaleModifier);
         stage.addActor(table);
 
     }
